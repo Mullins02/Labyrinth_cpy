@@ -1,0 +1,3 @@
+!.gitignore
+# Ignore anything from node_modules
+node_modules/

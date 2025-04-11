@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>AI in Games</title>
+        <style>
+            body {
+                margin: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <div
+            id="title-screen"
+            style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: black;
+                color: rgb(145, 27, 27);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                font-size: 64px;
+                opacity: 1;
+                transition: opacity 1s ease-in-out;
+                z-index: 999;
+            "
+        >
+            <h1>Labyrinth</h1>
+            <button
+                id="play-button"
+                style="
+                    margin-top: 20px;
+                    font-size: 48px;
+                    padding: 12px 24px;
+                    background-color: transparent;
+                    border: 4px solid rgb(145, 27, 27);
+                    color: rgb(145, 27, 27);
+                    font-family: inherit;
+                    cursor: pointer;
+                    border-radius: 12px;
+                "
+            >
+                Play
+            </button>
+        </div>
+
+        <div
+            id="exposition-screen"
+            style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: black;
+                color: rgb(145, 27, 27);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                font-size: 64px;
+                opacity: 0;
+                transition: opacity 1s ease-in-out;
+                z-index: 999;
+            "
+        >
+            <div style="padding: 0 80px; text-align: justify">
+                King Minos of Crete has sentenced you to death by the Minotaur,
+                a fearsome beast that dwells within the Labyrinth built by
+                Daedalus. To survive, you must navigate the twisting corridors
+                of the maze. If you reach the center and slay the Minotaur, you
+                will claim King Minos' greatest treasure, long guarded at the
+                heart of the Labyrinth-and it will be yours for the taking.
+                <br /><br />
+                But beware, the Labyrinth is a treacherous place, filled with more
+                monsters than just the Minotaur. You will need to use your wits
+                and your skills to survive. 
+                <br /><br />
+                Press “Start” to enter the Labyrinth... and begin your escape
+            </div>
+            <button
+                id="skip-button"
+                style="
+                    margin-top: 20px;
+                    font-size: 28px;
+                    padding: 12px 24px;
+                    background-color: transparent;
+                    border: 4px solid rgb(145, 27, 27);
+                    color: rgb(145, 27, 27);
+                    font-family: inherit;
+                    cursor: pointer;
+                    border-radius: 12px;
+                "
+            >
+                Start
+            </button>
+        </div>
+
+        <div id="overlay">
+            <div
+                id="player-overlay"
+                style="
+                    position: fixed;
+                    top: 20px;
+                    left: 20px;
+                    font-size: 28px;
+                    color: white;
+                    background: rgba(0, 0, 0, 0.5);
+                    padding: 8px 12px;
+                    border-radius: 8px;
+                    z-index: 998;
+                    font-family: sans-serif;
+                "
+            >
+                <div id="health-text"></div>
+                <div
+                    id="arrows-text"
+                    style="font-size: 22px; margin-top: 4px"
+                ></div>
+                <div
+                    id="shield-text"
+                    style="font-size: 22px; margin-top: 4px"
+                ></div>
+            </div>
+
+            <div
+                id="points-display"
+                style="
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    font-size: 28px;
+                    color: white;
+                    background: rgba(0, 0, 0, 0.5);
+                    padding: 8px 12px;
+                    border-radius: 8px;
+                    z-index: 998;
+                    font-family: sans-serif;
+                "
+            ></div>
+
+            <div
+                id="level-display"
+                style="
+                    position: fixed;
+                    top: 10px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    font-size: 28px;
+                    color: white;
+                    background: rgba(0, 0, 0, 0.5);
+                    padding: 8px 12px;
+                    border-radius: 8px;
+                    z-index: 998;
+                    font-family: sans-serif;
+                "
+            ></div>
+
+            <div 
+                id="boss-health-bar"
+                style="
+                    display: none;
+                    position: fixed;
+                    bottom: 10px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    font-size: 28px;
+                    color: red;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    padding: 8px 12px;
+                    border-radius: 8px;
+                    z-index: 998;
+                    font-family: Segoe-UI-Emoji;
+                "
+            ></div>
+
+        <div
+            id="game-over-screen"
+            style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: black;
+                color: rgb(145, 27, 27);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                font-size: 64px;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 1s ease-in-out;
+                z-index: 999;
+            "
+        >
+            <div>YOU DIED</div>
+            <div
+                id="final-score-loss"
+                style="font-size: 32px; margin-top: 16px"
+            ></div>
+        </div>
+
+        <div
+            id="game-won-screen"
+            style="
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: black;
+                color: rgb(27, 145, 37);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                font-size: 64px;
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 1s ease-in-out;
+                z-index: 999;
+            "
+        >
+            <div style="padding: 0 80px; text-align: center">
+                You Conquered the Labyrinth.
+                <br /><br />
+                The Minotaur is slain. The treasure of King Minos is yours.
+                You’ve earned your freedom… and your legend.
+                <br /><br />
+            </div>
+            <div
+                id="final-score-win"
+                style="font-size: 32px; margin-top: 16px"
+            ></div>
+        </div>
+
+        <script type="module" src="js/main.js"></script>
+    </body>
+</html>
